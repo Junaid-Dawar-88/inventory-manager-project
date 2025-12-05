@@ -19,30 +19,27 @@ interface StockItem {
 }
 
 interface StockInOutChartProps {
-  stock?: StockItem[]; // <-- optional to avoid undefined
+  stock?: StockItem[]; 
 }
 
 const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 
 const StockInOutChart: React.FC<StockInOutChartProps> = ({ stock = [] }) => {
 
-  // Create 12 months base structure
   const monthlyData = months.map((m) => ({
     month: m,
     stockIn: 0,
     stockOut: 0,
   }));
 
-  // Fill stock in/out values safely
   stock.forEach((item) => {
-    // Type narrowing: ensure all required properties exist
     if (!item || !item.createdAt || !item.movementType || item.quantity == null) return;
 
     const date = new Date(item.createdAt);
-    if (isNaN(date.getTime())) return; // skip invalid date
+    if (isNaN(date.getTime())) return;
 
     const monthIndex = date.getMonth();
-    if (monthIndex < 0 || monthIndex > 11) return; // extra safety
+    if (monthIndex < 0 || monthIndex > 11) return; 
 
     const quantity = Number(item.quantity);
     if (isNaN(quantity)) return;

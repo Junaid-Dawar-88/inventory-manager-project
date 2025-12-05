@@ -14,11 +14,16 @@ const Stock_modal = ({ stock, setStock, UpdateStock , setUpdateStock }: any) => 
   const [notes, setNotes] = useState("");
 
   useEffect(() => {
-    const getProducts = async () => {
-      const res = await axios.get("/api/Products");
-      setProductList(res.data);
-    };
-    getProducts();
+    try{
+      const getProducts = async () => {
+        const res = await axios.get("/api/Products");
+        setProductList(res.data);
+      };
+      getProducts();
+    } catch (error) {
+      alert('check console')
+      console.log('get product error in stock modal ')
+    }
   }, []);
 
   useEffect(() => {
@@ -33,24 +38,24 @@ const Stock_modal = ({ stock, setStock, UpdateStock , setUpdateStock }: any) => 
   } , [UpdateStock])
 
   const handleStock = async () => {
-    if (!productId || !movementType || !reason || !quantity) {
-      return alert("Please fill all required fields");
-    }
+    try{
 
- const exists = stock.find((s: any) => s.productId === Number(productId));
-if (exists) {
-  alert("This product already has a stock entry!");
-  return;
-}
-
-
-
-    const stockObj = {
-      productId: Number(productId),
-      movementType,
-      reason,
-      quantity: Number(quantity),
-      notes,
+      if (!productId || !movementType || !reason || !quantity) {
+        return alert("Please fill all required fields");
+      }
+      
+      const exists = stock.find((s: any) => s.productId === Number(productId));
+      if (exists) {
+        alert("This product already has a stock entry!");
+        return;
+      }
+      
+      const stockObj = {
+        productId: Number(productId),
+        movementType,
+        reason,
+        quantity: Number(quantity),
+        notes,
     };
 
     const res = await axios.post("/api/Stock", stockObj);
@@ -61,8 +66,12 @@ if (exists) {
     setQuantity("");
     setNotes("");
     setIsOpen(false);
-  };
-
+  } catch (error) {
+    alert('check console')
+    console.log('handle stock error in stock modal ')
+  }
+}
+  
   const handleUpdate = async () => {
     if(!UpdateStock) return
     const updateData = {

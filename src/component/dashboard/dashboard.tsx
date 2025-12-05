@@ -8,13 +8,23 @@ const Dashboard = () => {
   const [totalProduct , setTotalProduct] = useState([]);
 
   const getAllStock = async () => {
-    const res = await axios.get('/api/Stock');
-    setTotalStock(res.data);
+    try{
+      const res = await axios.get('/api/Stock');
+      setTotalStock(res.data);
+    } catch (error) {
+      alert('check comsole')
+      console.log('get stock in dashboard error ')
+    }
   };
 
   const getAllProduct = async () => {
-    const res = await axios.get('/api/Products');
-    setTotalProduct(res.data);
+    try{
+      const res = await axios.get('/api/Products');
+      setTotalProduct(res.data);
+    } catch (error) {
+      alert('check comsole')
+      console.log('get product in dashboard error ')
+    }
   };
    
   useEffect(() => {
@@ -28,8 +38,6 @@ const Dashboard = () => {
       <h1 className="text-2xl font-bold text-gray-800 mb-6">Dashboard Overview</h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-
-        {/* Total Products */}
         <div className="bg-white shadow-md rounded-2xl p-5 flex items-center justify-between hover:shadow-lg transition">
           <div>
             <h3 className="text-gray-600 text-sm">Total Products</h3>
@@ -37,8 +45,6 @@ const Dashboard = () => {
           </div>
           <Package className="w-12 h-12 text-blue-600 opacity-80" />
         </div>
-
-        {/* Total Stock */}
         <div className="bg-white shadow-md rounded-2xl p-5 flex items-center justify-between hover:shadow-lg transition">
           <div>
             <h3 className="text-gray-600 text-sm">Total Stock</h3>
@@ -46,8 +52,6 @@ const Dashboard = () => {
           </div>
           <Boxes className="w-12 h-12 text-green-600 opacity-80" />
         </div>
-
-        {/* Low Stock Items */}
         <div className="bg-white shadow-md rounded-2xl p-5 flex items-center justify-between hover:shadow-lg transition">
           <div>
             <h3 className="text-gray-600 text-sm">Low Stock Items</h3>
@@ -55,8 +59,6 @@ const Dashboard = () => {
           </div>
           <AlertTriangle className="w-12 h-12 text-red-500 opacity-80" />
         </div>
-
-        {/* Stock Movement */}
         <div className="bg-white shadow-md rounded-2xl p-5 flex items-center justify-between hover:shadow-lg transition">
           <div>
             <h3 className="text-gray-600 text-sm">Stock Movement</h3>
@@ -77,8 +79,6 @@ const Dashboard = () => {
   </div>
 )}
 
-
-      {/* Chart Section */}
       <div className="mt-10 grid grid-cols-2 w-full lg:grid-cols-1 gap-6">
        <StockInOutChart stock={totalStock} />
       </div>

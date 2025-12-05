@@ -24,6 +24,7 @@ const Stock = () => {
       const res = await axios.get("/api/Stock");
       setStock(res.data);
     } catch {
+      alert('check console')
       console.log('stock ui error in gat all stock fn ')
     }
   };
@@ -41,6 +42,7 @@ const Stock = () => {
       const res = await axios.delete(`/api/Stock/${id}`);
       setStock((prev) => prev.filter((item) => item.id !== res.data.id));
     } catch(error) {
+      alert('check console')
       console.log('stock ui error in delete fn ')
     }
   };
